@@ -41,5 +41,13 @@ var BackgroundLayer = cc.Layer.extend({
 
         this.bg01.setPositionY(pos01Y);
         this.bg02.setPositionY(pos02Y);
+
+        // 判断当前背景图片的位置，如果指定背景的位置小于0，那么就把该图片翻转到顶部
+        if((pos01Y <= 0) && (pos01Y > pos02Y)) {
+            this.bg02.setPositionY(this.bg01.getContentSize().height);
+        }
+        if((pos02Y <= 0) && (pos02Y > pos01Y)) {
+            this.bg01.setPositionY(this.bg02.getContentSize().height);
+        }
     }
 });
