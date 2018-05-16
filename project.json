@@ -9,14 +9,19 @@
     "renderMode" : 0,
     "engineDir":"frameworks/cocos2d-html5",
 
-    "modules" : ["cocos2d"],
+    "modules" : ["cocos2d", "ccui"],
 
     "jsList" : [
         "src/resource.js",
         "src/app.js",
+
+        "src/Scene/PlayScene/scene.js",
+        "src/Scene/PlayScene/Layer/background.js",
+        "src/Scene/PlayScene/Layer/plane.js",
+        "src/Scene/PlayScene/Layer/menu.js",
+
         "src/Scene/MainScene/scene.js",
         "src/Scene/MainScene/Layer/background.js",
-        "src/Scene/MainScene/Layer/plane.js",
-        "src/Scene/MainScene/Layer/menu.js"
+        "src/Scene/MainScene/Layer/plane.js"
     ]
 }
