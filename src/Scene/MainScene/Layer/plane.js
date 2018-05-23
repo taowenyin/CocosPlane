@@ -1,5 +1,6 @@
-var PlaneLayer = cc.Layer.extend({
+var MainPlaneLayer = cc.Layer.extend({
     plane: null,
+    str: "xxx",
 
     ctor: function() {
         this._super();
@@ -37,5 +38,78 @@ var PlaneLayer = cc.Layer.extend({
 
         // 使飞机播放该动画
         this.plane.runAction(animate);
+
+        // 注册事件
+        this.registerEvent();
+    },
+
+    registerEvent: function() {
+        // 添加点击事件的监听器        
+        var touchListener = cc.EventListener.create({
+            event: cc.EventListener.TOUCH_ONE_BY_ONE,
+            swallowTouches: true,
+            target: this,
+            onTouchBegan: function(touch, event) {
+                // 获取当前事件绑定的对象
+                var target = event.getCurrentTarget();
+                // 把点击的位置转化为绑定对象节点中的位置
+                var posInNode = target.convertToNodeSpace(touch.getLocation());
+
+                // 获取绑定对象的大小
+                var size = target.getContentSize();
+                // 形成绑定对象的矩形
+                var rect = cc.rect(0, 0, size.width, size.height);
+
+                // 判断点击位置是否在节点矩形中
+                if(!(cc.rectContainsPoint(rect, posInNode))) {
+                    return false;
+                }
+
+                return true;
+            },
+            onTouchMoved: function(touch, event) {
+                console.log("onTouchMoved");
+            },
+            onTouchEnded: function(touch, event) {
+                console.log("onTouchEnded");
+            }
+        });
+        // 向飞机添加点击事件
+        cc.eventManager.addListener(touchListener, this.plane);
+
+        // 判断当前系统是否支持键盘
+        if('keyboard' in cc.sys.capabilities) {
+            // 创建键盘事件的监听函数
+            var keyboardListener = cc.EventListener.create({
+                event: cc.EventListener.KEYBOARD,
+                target: this,
+                onKeyPressed: function(keyCode, event) {
+                    // 点击向左按钮
+                    if(keyCode == 37) {
+                        cc.log('点击向左按钮');
+                    }
+                    // 点击向上按钮
+                    if(keyCode == 38) {
+                        cc.log('点击向上按钮');
+                    }
+                    // 点击向右按钮
+                    if(keyCode == 39) {
+                        cc.log('点击向右按钮');
+                    }
+                    // 点击向下按钮
+                    if(keyCode == 40) {
+                        cc.log('点击向下按钮');
+                    }
+                    
+                },
+                onKeyReleased: function(keyCode, event) {
+                    
+                }
+            });
+           // 向本层添加键盘事件
+            cc.eventManager.addListener(keyboardListener, this);
+        } else {
+            cc.log("键盘事件不支持");
+        }
     }
 });

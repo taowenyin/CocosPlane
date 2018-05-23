@@ -11,19 +11,19 @@ var PlayScene =  cc.Scene.extend({
 
     // 载入背景
     loadBackground: function() {
-        var layer = new BackgroundLayer();
+        var layer = new PlayBackgroundLayer();
         this.addChild(layer);
     },
 
     // 载入飞机
     loadPlane: function() {
-        var layer = new PlaneLayer();
+        var layer = new PlayPlaneLayer();
         this.addChild(layer);
     },
 
     // 载入菜单
     loadMenu: function() {
-        var layer = new MenuLayer();
+        var layer = new PlayMenuLayer();
         this.addChild(layer);
     }
 });

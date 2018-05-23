@@ -10,13 +10,13 @@ var MainScene =  cc.Scene.extend({
 
     // 载入背景
     loadBackground: function() {
-        var layer = new BackgroundLayer();
+        var layer = new MainBackgroundLayer();
         this.addChild(layer);
     },
 
     // 载入飞机
     loadPlane: function() {
-        var layer = new PlaneLayer();
+        var layer = new MainPlaneLayer();
         this.addChild(layer);
     },
 });

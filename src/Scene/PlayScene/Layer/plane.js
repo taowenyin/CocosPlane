@@ -1,4 +1,4 @@
-var PlaneLayer = cc.Layer.extend({
+var PlayPlaneLayer = cc.Layer.extend({
     plane: null,
 
     ctor: function() {

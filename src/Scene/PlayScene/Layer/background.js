@@ -1,4 +1,4 @@
-var BackgroundLayer = cc.Layer.extend({
+var PlayBackgroundLayer = cc.Layer.extend({
     bg01:null,
     bg02:null,
 

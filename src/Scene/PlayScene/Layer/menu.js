@@ -1,4 +1,4 @@
-var MenuLayer = cc.Layer.extend({
+var PlayMenuLayer = cc.Layer.extend({
     gameStartBtn: null,
     gameExitBtn: null,
 
