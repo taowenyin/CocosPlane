@@ -1,10 +1,13 @@
 var MainPlaneLayer = cc.Layer.extend({
     plane: null,
     screenSize: null,
-    str: "xxx",
+    bulletArray: null,
 
     ctor: function() {
         this._super();
+
+        // 创建子弹数组
+        this.bulletArray = new Array();
 
         // 得到屏幕的宽度和高度
         this.screenSize = cc.winSize;
@@ -42,6 +45,16 @@ var MainPlaneLayer = cc.Layer.extend({
 
         // 注册事件
         this.registerEvent();
+        // 注册定时器
+        this.registerTimer();
+
+    },
+
+    registerTimer: function() {
+        // 添加子弹发射的定时器
+        this.schedule(this.shootBullet, 0.5, cc.REPEAT_FOREVER, 0);
+        // 添加系统的调度器
+        this.scheduleUpdate();
     },
 
     registerEvent: function() {
@@ -180,6 +193,33 @@ var MainPlaneLayer = cc.Layer.extend({
             cc.eventManager.addListener(keyboardListener, this);
         } else {
             cc.log("键盘事件不支持");
+        }
+    },
+
+    // 发射子弹的处理函数
+    shootBullet: function() {
+        cc.log("===shootBullet===");
+
+        // 创建子弹的精灵
+        var bullet = cc.Sprite.create(res.Bullet_png);
+        // 设置子弹精灵的锚点
+        bullet.setAnchorPoint(0.5, 0);
+
+        // 把子弹添加到场景层
+        this.addChild(bullet);
+
+        // 设置子弹的在场景层中的位置
+        bullet.setPosition(this.plane.getPositionX(), this.plane.getPositionY() + this.plane.getContentSize().height / 2);
+
+        // 把子弹添加到子弹数组中
+        this.bulletArray.push(bullet);
+    },
+
+    // 调度器的处理函数
+    update: function(dt) {
+        for(var i = 0; i < this.bulletArray.length; i++) {
+            var bullet = this.bulletArray[i];
+            bullet.setPosition(bullet.getPositionX(), bullet.getPositionY() + 3);
         }
     }
 });

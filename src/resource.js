@@ -8,6 +8,7 @@ var res = {
     Game_Exit_Press_png : "res/Common/game_exit_press.png",
     Game_Start_Normal_png : "res/Common/game_start_normal.png",
     Game_Start_Press_png : "res/Common/game_start_press.png",
+    Bullet_png : "res/MainScene/bullet.png"
 };
 
 var g_resources = [];
