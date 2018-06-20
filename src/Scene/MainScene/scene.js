@@ -2,8 +2,6 @@ var MainScene =  cc.Scene.extend({
     onEnter: function() {
         this._super();
 
-        console.log("Enter Main Scene");
-
         this.loadBackground();
         this.loadPlane();
     },

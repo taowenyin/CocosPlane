@@ -27,7 +27,6 @@ var PlayMenuLayer = cc.Layer.extend({
             gameStartPress,
             gameStartDisable,
             function() {
-                cc.log("开始菜单的点击事件");
                 cc.director.runScene(new cc.TransitionFlipX(2, new MainScene(), cc.TRANSITION_ORIENTATION_RIGHT_OVER));
             }
         );

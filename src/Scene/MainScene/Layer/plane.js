@@ -1,14 +1,15 @@
 var MainPlaneLayer = cc.Layer.extend({
     plane: null,
+    screenSize: null,
     str: "xxx",
 
     ctor: function() {
         this._super();
 
         // 得到屏幕的宽度和高度
-        var screenSize = cc.winSize;
-        var width = screenSize.width;
-        var height = screenSize.height;
+        this.screenSize = cc.winSize;
+        var width = this.screenSize.width;
+        var height = this.screenSize.height;
 
         // 创建飞机的精灵
         this.plane = cc.Sprite.create(res.HERO_01_png);
@@ -68,7 +69,50 @@ var MainPlaneLayer = cc.Layer.extend({
                 return true;
             },
             onTouchMoved: function(touch, event) {
-                console.log("onTouchMoved");
+                // 得到触发事件的飞机对象
+                var plane = event.getCurrentTarget();
+                // 得到飞机大小
+                var planeSize = plane.getContentSize();
+                // 得到屏幕大小
+                var screenSize = this.target.screenSize;
+                // 得到鼠标移动的距离
+                var location = touch.getLocation();
+
+                // 当鼠标的位置小于左边界，那么就让飞机的X位置固定
+                if (location.x < (planeSize.width / 2)) {
+                    // 设置飞机的移动
+                    var placeAction = cc.place(planeSize.width / 2, location.y);
+                    plane.runAction(placeAction);
+                    return;
+                }
+
+                // 当鼠标的位置大于右边界，那么就让飞机的X位置固定
+                if (location.x > (screenSize.width - planeSize.width / 2)) {
+                    // 设置飞机的移动
+                    var placeAction = cc.place(screenSize.width - planeSize.width / 2, location.y);
+                    plane.runAction(placeAction);
+                    return;
+                }
+
+                // 当鼠标的位置小于下边界，那么就让飞机的Y位置固定
+                if (location.y < (planeSize.height / 2)) {
+                    // 设置飞机的移动
+                    var placeAction = cc.place(location.x, planeSize.height / 2);
+                    plane.runAction(placeAction);
+                    return;
+                }
+
+                // 当鼠标的位置大于上边界，那么就让飞机的Y位置固定
+                if (location.y > (screenSize.height - planeSize.height / 2)) {
+                    // 设置飞机的移动
+                    var placeAction = cc.place(location.x, screenSize.height - planeSize.height / 2);
+                    plane.runAction(placeAction);
+                    return;
+                }
+
+                // 设置飞机的移动
+                var placeAction = cc.place(location.x, location.y);
+                plane.runAction(placeAction);
             },
             onTouchEnded: function(touch, event) {
                 console.log("onTouchEnded");
@@ -84,25 +128,51 @@ var MainPlaneLayer = cc.Layer.extend({
                 event: cc.EventListener.KEYBOARD,
                 target: this,
                 onKeyPressed: function(keyCode, event) {
+                    // 获取层中的飞机对象
+                    var plane = this.target.plane;
+                    // 获取当前飞机的位置
+                    var currentPos = plane.getPosition();
+                    // 获取当前飞机的大小
+                    var planeSize = plane.getContentSize();
+                    // 得到屏幕的大小
+                    var screenSize = this.target.screenSize;
+
                     // 点击向左按钮
                     if(keyCode == 37) {
-                        cc.log('点击向左按钮');
+                        // 控制飞机所处位置不能小于左边线
+                        if(currentPos.x > planeSize.width / 2) {
+                            // 设置飞机的移动
+                            var placeAction = cc.place(currentPos.x - 4, currentPos.y);
+                            plane.runAction(placeAction);
+                        }
                     }
                     // 点击向上按钮
                     if(keyCode == 38) {
-                        cc.log('点击向上按钮');
+                        // 控制飞机所处位置不能大于上边线
+                        if(currentPos.y < (screenSize.height - planeSize.height / 2)) {
+                            // 设置飞机的移动
+                            var placeAction = cc.place(currentPos.x, currentPos.y + 4);
+                            plane.runAction(placeAction);
+                        }
                     }
                     // 点击向右按钮
                     if(keyCode == 39) {
-                        cc.log('点击向右按钮');
+                        // 控制飞机所处位置不能大于右边线
+                        if(currentPos.x < (screenSize.width - planeSize.width / 2)) {
+                            // 设置飞机的移动
+                            var placeAction = cc.place(currentPos.x + 4, currentPos.y);
+                            plane.runAction(placeAction);
+                        }
                     }
                     // 点击向下按钮
                     if(keyCode == 40) {
-                        cc.log('点击向下按钮');
+                        // 控制飞机所处位置不能小于下边线
+                        if(currentPos.y > planeSize.height / 2) {
+                            // 设置飞机的移动
+                            var placeAction = cc.place(currentPos.x, currentPos.y - 4);
+                            plane.runAction(placeAction);
+                        }                        
                     }
-                    
-                },
-                onKeyReleased: function(keyCode, event) {
                     
                 }
             });
